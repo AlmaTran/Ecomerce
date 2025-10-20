@@ -28,9 +28,9 @@ function HomePage() {
         <Info />
         <AdvanceHeading />
         <HeadingListProduct data={listProduct.slice(0,2)} />
-        <PopularProduct data={listProduct.slice(2, 12)} />
+        <PopularProduct data={listProduct.slice(2, 14)} />
         <SaleHomepage />
-        <div style={{ height: '499px' }}></div>
+        <div style={{ height: '799px' }}></div>
       </div>
     </div>
   );

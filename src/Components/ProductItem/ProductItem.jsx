@@ -37,7 +37,7 @@ function ProductItem({
         </div>
       </div>
       <div className={title}>{name}</div>
-      <div className={prices}>{price}</div>
+      <div className={prices}>{price}$</div>
     </div>
   );
 }
