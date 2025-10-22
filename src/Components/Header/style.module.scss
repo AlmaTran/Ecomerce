@@ -11,6 +11,10 @@
 
 }
 
+.fixedHeader {
+    
+}
+
 .containerHeader {
     display: flex;
     align-items: center;
@@ -50,8 +54,8 @@
     
 }
 .boxIcon img {
-    // filter: brightness(0) invert(1);
-    background-color:  $white_color;
+    filter: invert(1); 
+    // background-color:  $white_color;
 }
 
 .menu::after {

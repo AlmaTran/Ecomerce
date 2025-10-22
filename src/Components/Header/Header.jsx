@@ -6,10 +6,29 @@ import Logo from "@icons/svgs/images/thuan1.png";
 import reloadicon from "@icons/svgs/reloadicon.svg";
 import hearticon from "@icons/svgs/hearticon.svg";
 import carticon from "@icons/svgs/carticon.svg";
+import useCrollHandling from "@/hooks/useScrollHandling";
+import { useEffect, useState } from "react";
 
 function MyHeader() {
-  const { containerBoxIcon, containerMenu, containerHeader, containerBox,container } =
-    styles;
+  const {
+    containerBoxIcon,
+    containerMenu,
+    containerHeader,
+    containerBox,
+    container,
+  } = styles;
+
+  const {scrollPosition} = useCrollHandling();
+  const [fixedPosition, setFixedPosition] = useState(false)
+  console.log(scrollPosition)
+
+  useEffect(() => {
+    if(scrollPosition > 100) {
+      console.log("bật")
+    } else {
+      console.log("tắt")
+    }
+  },[scrollPosition])
 
   return (
     <div className={container}>

@@ -1,8 +1,8 @@
 import styles from "../style.module.scss";
 import truckicon from "@icons/svgs/truckicon.svg";
 
-function InfoCard({content, description, src}) {
-  const { containerCard, containerContent, title, des, boxIcon } = styles;
+function InfoCard({description, src,title}) {
+  const { containerCard, containerContent, titles, des, boxIcon } = styles;
   return (
     <div className={containerCard}>
         <div className={boxIcon}>
@@ -10,7 +10,7 @@ function InfoCard({content, description, src}) {
         </div>
 
       <div className={containerContent}>
-        <div className={title}>{title}</div>
+        <div className={titles}>{title}</div>
         <div className={des}>{description}</div>
       </div>
     </div>
