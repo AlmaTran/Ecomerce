@@ -8,6 +8,7 @@ import hearticon from "@icons/svgs/hearticon.svg";
 import carticon from "@icons/svgs/carticon.svg";
 import useCrollHandling from "@/hooks/useScrollHandling";
 import { useEffect, useState } from "react";
+import classNames from "classnames";
 
 function MyHeader() {
   const {
@@ -16,22 +17,30 @@ function MyHeader() {
     containerHeader,
     containerBox,
     container,
+    fixedHeader,
+    topHeader,
   } = styles;
 
-  const {scrollPosition} = useCrollHandling();
-  const [fixedPosition, setFixedPosition] = useState(false)
-  console.log(scrollPosition)
+  const { scrollPosition } = useCrollHandling();
+  const [fixedPosition, setFixedPosition] = useState(false);
+  console.log(scrollPosition);
 
   useEffect(() => {
-    if(scrollPosition > 100) {
-      console.log("bật")
-    } else {
-      console.log("tắt")
-    }
-  },[scrollPosition])
+    // if (scrollPosition > 80) {
+    //   setFixedPosition(true);
+    // } else {
+    //   setFixedPosition(false);
+    // }
+
+    setFixedPosition(scrollPosition > 85)
+  }, [scrollPosition]);
 
   return (
-    <div className={container}>
+    <div
+      className={classNames(container, topHeader, {
+        [fixedHeader]: fixedPosition,
+      })}
+    >
       <div className={containerHeader}>
         <div className={containerBox}>
           <div className={containerBoxIcon}>
