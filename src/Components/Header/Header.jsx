@@ -7,8 +7,9 @@ import reloadicon from "@icons/svgs/reloadicon.svg";
 import hearticon from "@icons/svgs/hearticon.svg";
 import carticon from "@icons/svgs/carticon.svg";
 import useCrollHandling from "@/hooks/useScrollHandling";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import classNames from "classnames";
+import { SideBarContext } from "@/contexts/SideBarProvider";
 
 function MyHeader() {
   const {
@@ -23,7 +24,10 @@ function MyHeader() {
 
   const { scrollPosition } = useCrollHandling();
   const [fixedPosition, setFixedPosition] = useState(false);
-  console.log(scrollPosition);
+  
+  const {isOpen, setIsOpen} = useContext(SideBarContext)
+
+  console.log(isOpen)
 
   useEffect(() => {
     // if (scrollPosition > 80) {
@@ -89,7 +93,7 @@ function MyHeader() {
         <div className={containerBox}>
           <div className={containerMenu}>
             {dataMenu.slice(3, 6).map((item) => {
-              return <Menu content={item.content} href={item.href} />;
+              return <Menu content={item.content} href={item.href} setIsOpen={setIsOpen} />;
             })}
           </div>
           <div className={containerBoxIcon}>

@@ -1,0 +1,23 @@
+@import '@styles/mixin.module.scss';
+@import '@styles/variable.module.scss';
+
+
+.container {
+
+    .labelInput {
+        font-size: 14px;
+        color: $four_color;
+        margin-bottom: 6px;
+    }
+
+    .boxInput {
+        width: 100%;
+        input {
+            width: 100%;
+            border: 1px solid #e1e1e1;
+            outline: none;
+            padding: 10px 0 10px;
+        
+        }
+    }
+}
