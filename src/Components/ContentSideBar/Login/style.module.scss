@@ -10,3 +10,24 @@
     font-size: 18px;
     margin-bottom: 30px;
 }
+.boxRememberMe {
+    margin-bottom: 30px;
+
+    input {
+        margin-right: 10px;
+    }
+    span {
+        font-size: 14px;
+    }
+}
+
+.lost {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+
+    &:hover {
+        cursor: pointer;
+        text-decoration: none;
+    }
+}

@@ -3,7 +3,7 @@ import styles from './style.module.scss'
 
 function Banner() {
 
-    const {container,content,title, des} = styles;
+    const {container,content,title, des, button} = styles;
 
     return ( 
         <div className={container}>
@@ -12,7 +12,7 @@ function Banner() {
                 <div className={des}>
                     Make yours celebrations even more special this years with beatiful.
                 </div>
-                <Button content={'Go to shop'}/>
+                <div className={button}> <Button content={'Go to shop'}/></div>
             </div>
         </div>
      );
