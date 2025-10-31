@@ -3,7 +3,10 @@ import styles from "./style.module.scss";
 import { SideBarContext } from "@/contexts/SideBarProvider";
 import classNames from "classnames";
 import { IoMdClose } from "react-icons/io";
+import Cart from "@components/ContentSideBar/Cart/Cart";
 import Login from "@components/ContentSideBar/Login/Login";
+import Compare from "@components/ContentSideBar/Compare/Compare";
+import WishList from "@components/ContentSideBar/WishList/WishList";
 
 function SideBar() {
   const { container, overlay, Bar, slideSideBar, boxIcon } = styles;
@@ -18,11 +21,11 @@ function SideBar() {
       case 'login':
             return <Login/>
       case 'compare':
-            return 'Compare'
+            return <Compare/>
       case 'wishlist': 
-            return 'Wishlist'
+            return <WishList/>
       case 'cart':
-            return 'Cart'
+            return <Cart/>
     
       default:
         return <Login/>
