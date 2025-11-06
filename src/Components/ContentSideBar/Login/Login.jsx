@@ -5,11 +5,14 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useContext, useState } from "react";
 import { ToastContext } from "@/contexts/ToastProvider";
+import { register } from "@/apis/authService";
+import { signIn } from "@/apis/authService";
 
 function Login() {
   const { container, title, boxRememberMe, button, lost } = styles;
   const [isRegister, setIsRegister] = useState(false);
-  const {toast} = useContext(ToastContext)
+  const { toast } = useContext(ToastContext);
+  const [isLoaidng, setIsLoading] = useState(false)
 
   const formik = useFormik({
     initialValues: {
@@ -23,13 +26,42 @@ function Login() {
       password: Yup.string()
         .min(6, "Password must be at least 6 characters")
         .required("Password is required"),
-        cfmpassword: Yup.string().oneOf(
-            [Yup.ref('password'), null],
-            'Passwords must match'
-        )
+      cfmpassword: Yup.string().oneOf(
+        [Yup.ref("password"), null],
+        "Passwords must match"
+      ),
     }),
-    onSubmit: (values) => {
-      console.log("Form submitted:", values);
+    onSubmit: async (values) => {
+    
+      if(isLoaidng) return;
+
+      const { email: username, password } = values;
+
+      if (isRegister) {
+      
+
+        setIsLoading(true)
+        await register({
+          username,
+          password,
+        })
+          .then((res) => {
+               toast.success(res.data.message)
+               setIsLoading(false)
+
+          })
+          .catch((err) => {
+              toast.error(err.response.data.message)
+               setIsLoading(false)
+          });
+      }
+
+      if(!isRegister) {
+        await signIn({
+          username,
+          password,
+        })
+      }
     },
   });
 
@@ -75,9 +107,13 @@ function Login() {
           </div>
         )}
         <div className={button}>
-          <Button content={isRegister ? 'REGISTER' : 'LOGIN'} variant="primary" fullWidth type="submit"
-            onClick={() => toast.success('Success')}
-           />
+          <Button
+            content={isRegister ? "REGISTER" : "LOGIN"}
+            variant="primary"
+            fullWidth
+            type="submit"
+            // onClick={() => toast.success('Success')}
+          />
         </div>
       </form>
       <Button
@@ -89,7 +125,7 @@ function Login() {
         style={{ marginTop: "10px" }}
         onClick={handleToggle}
       />
-        {!isRegister &&    <div className={lost}>Lost your password?</div>}
+      {!isRegister && <div className={lost}>Lost your password?</div>}
     </div>
   );
 }
