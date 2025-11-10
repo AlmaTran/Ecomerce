@@ -8,7 +8,6 @@ function HeadingListProduct({ data }) {
   const { container, containerItem } = styles;
   const targetDate = "2025-12-31T00:00:00";
 
-  console.log(data);
 
   return (
     <Mainlayout>

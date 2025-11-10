@@ -7,29 +7,32 @@ import { Suspense } from "react";
 import { SideBarProvider } from "@/contexts/SideBarProvider";
 import SideBar from "@/Sidebar/Sidebar";
 import { ToastProvider } from "@/contexts/ToastProvider";
+import { StoreProvider } from "@/contexts/storeProvider";
 
 function App() {
   return (
-    <ToastProvider>
-      <SideBarProvider>
-        <SideBar />
-        <BrowserRouter>
-          <Suspense>
-            <Routes>
-              {routers.map((item, index) => {
-                return (
-                  <Route
-                    path={item.path}
-                    element={<item.component />}
-                    key={index}
-                  />
-                );
-              })}
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
-      </SideBarProvider>
-    </ToastProvider>
+    <StoreProvider>
+      <ToastProvider>
+        <SideBarProvider>
+          <SideBar />
+          <BrowserRouter>
+            <Suspense>
+              <Routes>
+                {routers.map((item, index) => {
+                  return (
+                    <Route
+                      path={item.path}
+                      element={<item.component />}
+                      key={index}
+                    />
+                  );
+                })}
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </SideBarProvider>
+      </ToastProvider>
+    </StoreProvider>
   );
 }
 

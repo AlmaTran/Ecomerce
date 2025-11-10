@@ -2,13 +2,10 @@ import BoxIcon from "./BoxIcon/BoxIcon";
 import { dataBoxIcon, dataMenu } from "./constant";
 import Menu from "./Menu/Menu";
 import styles from "./style.module.scss";
-import Logo from "@icons/svgs/images/thuan1.png";
-import reloadicon from "@icons/svgs/reloadicon.svg";
 import { TfiReload } from "react-icons/tfi";
 import { CiHeart } from "react-icons/ci";
 import { PiShoppingCartLight } from "react-icons/pi";
-import hearticon from "@icons/svgs/hearticon.svg";
-import carticon from "@icons/svgs/carticon.svg";
+
 import useCrollHandling from "@/hooks/useScrollHandling";
 import { useContext, useEffect, useState } from "react";
 import classNames from "classnames";

@@ -12,7 +12,7 @@ function SaleHomepage() {
     handleTranslateX();
   }, [scrollPosition]);
 
-  console.log(scrollPosition);
+  // console.log(scrollPosition);
   return (
     <div className={container}>
       <div

@@ -3,16 +3,23 @@ import styles from "./style.module.scss";
 import Button from "@components/Button/Button";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ToastContext } from "@/contexts/ToastProvider";
 import { register } from "@/apis/authService";
 import { signIn } from "@/apis/authService";
+import Cookies from "js-cookie";
+import { getInfo } from "@/apis/authService";
+import { SideBarContext } from "@/contexts/SideBarProvider";
+import { StoreContext } from "@/contexts/storeProvider";
+
 
 function Login() {
   const { container, title, boxRememberMe, button, lost } = styles;
   const [isRegister, setIsRegister] = useState(false);
   const { toast } = useContext(ToastContext);
-  const [isLoaidng, setIsLoading] = useState(false)
+  const [isLoaidng, setIsLoading] = useState(false);
+  const {setIsOpen} = useContext(SideBarContext)
+  const {setUserId} = useContext(StoreContext)
 
   const formik = useFormik({
     initialValues: {
@@ -32,36 +39,50 @@ function Login() {
       ),
     }),
     onSubmit: async (values) => {
-    
-      if(isLoaidng) return;
+      if (isLoaidng) return;
 
       const { email: username, password } = values;
 
       if (isRegister) {
-      
-
-        setIsLoading(true)
+        setIsLoading(true);
         await register({
           username,
           password,
         })
           .then((res) => {
-               toast.success(res.data.message)
-               setIsLoading(false)
-
+            toast.success(res.data.message);
+            setIsLoading(false);
+            //  console.log(res)
           })
           .catch((err) => {
-              toast.error(err.response.data.message)
-               setIsLoading(false)
+            toast.error(err.response.data.message);
+            setIsOpen(false);
           });
       }
 
-      if(!isRegister) {
+      if (!isRegister) {
         await signIn({
           username,
           password,
         })
+          .then((res) => {
+            setIsLoading(false);
+            
+            const {id, token, refreshToken} = res.data;
+            setUserId(id)
+            Cookies.set('token',token);
+            Cookies.set('refreshToken',refreshToken)
+            Cookies.set('userId', id)
+            toast.success('Sign in successfully!')
+            setIsOpen(false)
+
+          })
+          .catch((err) => {
+            setIsLoading(false);
+            toast.error('Sign in failed!');
+          });
       }
+
     },
   });
 
@@ -69,6 +90,7 @@ function Login() {
     setIsRegister(!isRegister);
     formik.resetForm();
   };
+ 
 
   return (
     <div className={container}>
