@@ -3,12 +3,14 @@ import styles from "../style.module.scss"; // sửa lại
 import { SideBarContext } from "@/contexts/SideBarProvider";
 import { StoreContext } from "@/contexts/storeProvider";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 function Menu({ content, href }) {
   const { menu, subMenu } = styles;
   const { setIsOpen, setType } = useContext(SideBarContext);
   const { userInfo, handleLogOut } = useContext(StoreContext);
   const [isShowMenu, setIsShowMenu] = useState(false);
+  const navigate = useNavigate()
 
   console.log(userInfo);
 
@@ -16,6 +18,9 @@ function Menu({ content, href }) {
     if (content === "Sign in" && !userInfo) {
       setIsOpen(true);
       setType("login");
+    }
+    if(content === 'Our Shop') {
+        navigate('/shop')
     }
   };
 
