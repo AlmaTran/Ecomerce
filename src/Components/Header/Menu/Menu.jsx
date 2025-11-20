@@ -12,7 +12,6 @@ function Menu({ content, href }) {
   const [isShowMenu, setIsShowMenu] = useState(false);
   const navigate = useNavigate()
 
-  console.log(userInfo);
 
   const handleClickShowLogin = () => {
     if (content === "Sign in" && !userInfo) {
