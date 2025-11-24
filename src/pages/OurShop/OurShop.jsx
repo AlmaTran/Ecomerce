@@ -7,6 +7,7 @@ import { OurShopProvider } from "@/contexts/OurShopProvider";
 import { useContext } from "react";
 import { OurShopContext } from "@/contexts/OurShopProvider";
 import Filter from "@/pages/OurShop/components/Filter";
+import ListProducts from "@/pages/OurShop/components/ListProducts";
 
 function OurShop() {
   const { container, functionBox, shop, back } = styles;
@@ -35,6 +36,7 @@ function OurShop() {
         <Banner />
         <div>
           <Filter/>
+          <ListProducts/>
         </div>
       </Mainlayout>
     </OurShopProvider>

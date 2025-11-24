@@ -15,7 +15,14 @@ function HomePage() {
   const [listProduct, setLisProducts] = useState([]);
 
   useEffect(() => {
-    getProducts().then((res) => {
+
+    const query = {
+      sortType: 0,
+      page: 1,
+      limit: 10
+    }
+
+    getProducts(query).then((res) => {
       setLisProducts(res.contents); // gán kết quả API vào state
     });
   }, []); // <- đặt ở đây

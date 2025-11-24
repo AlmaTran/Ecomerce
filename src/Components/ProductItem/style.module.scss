@@ -1,5 +1,5 @@
-@import '@styles/variable.module.scss';
-@import '@styles/mixin.module.scss';
+@import "@styles/variable.module.scss";
+@import "@styles/mixin.module.scss";
 
 .boxImg {
   width: 295px;
@@ -21,7 +21,9 @@
   &:hover .showFnWhenHover {
     opacity: 1;
     right: 20px;
-    transition: opacity 500ms, right 500ms;
+    transition:
+      opacity 500ms,
+      right 500ms;
   }
 
   .showImageWhenHover {
@@ -58,19 +60,60 @@
     width: 17px;
     height: 17px;
   }
-
-
 }
 
-
 .title {
-    font-size: 16px;
-    color: $four_color;
-    margin: 10px 0 ;
+  font-size: 16px;
+  color: $four_color;
+  margin: 10px 0;
 }
 
 .prices {
-    font-size: 14px;
-    color: $thr_color;
-    font-weight: 400;
+  font-size: 14px;
+  color: $thr_color;
+  font-weight: 400;
+}
+.boxSize {
+  @include flex_box_custom(center, center, 10px);
+
+  .size {
+    @include flex_box_custom(center, center, 0px);
+
+    border: 1px solid #e1e1e1;
+    padding: 5px 6px;
+    font-size: 12px;
+    cursor: pointer;
+
+    &:hover {
+      border: 1px solid $primary_color;
+      transition: border 500ms;
+    }
+  }
+}
+
+.textCenter {
+  text-align: center;
+  margin-top: 5px;
+}
+
+.boxBtn {
+  margin: 10px auto;
+  width: 142px;
+}
+
+.containerItem {
+  @include flex_box_custom(flex-start, center, 10px);
+  margin-top: 15px;
+
+  .content {
+    
+    @include flex_box_custom(flex-start, flex-start, 10px);
+    flex-direction: column
+  }
+  .leftBtn {
+    margin: 0px;
+  }
+  .largImg {
+    width: 430px;
+  }
 }

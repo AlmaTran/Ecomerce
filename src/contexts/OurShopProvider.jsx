@@ -1,4 +1,6 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import { CgKey } from "react-icons/cg";
+import { getProducts } from "@/apis/productService";
 
 export const OurShopContext = createContext();
 
@@ -20,8 +22,33 @@ export const OurShopProvider = ({ children }) => {
   const [sortId, setSortId] = useState("0");
   const [showId, setShowId] = useState("8");
   const [isShowGrid, setIsShowGrid] = useState(true);
+  const [products,setProducts] = useState([])
 
-  const values = { sortOptions, showOptions,setSortId,setShowId,setIsShowGrid };
+  const values = {
+    sortOptions,
+    showOptions,
+    setSortId,
+    setShowId,
+    setIsShowGrid,
+    products,
+    isShowGrid
+  };
+
+  useEffect(() => {
+    const query = {
+      sortType: sortId,
+      page: 1,
+      limit: showId
+    }
+   getProducts(query)
+      .then((res) => {
+          setProducts(res.contents)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+  },[sortId,showId])
 
   return (
     <OurShopContext.Provider value={values}>{children}</OurShopContext.Provider>
