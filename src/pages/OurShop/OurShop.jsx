@@ -8,6 +8,7 @@ import { useContext } from "react";
 import { OurShopContext } from "@/contexts/OurShopProvider";
 import Filter from "@/pages/OurShop/components/Filter";
 import ListProducts from "@/pages/OurShop/components/ListProducts";
+import MyFooter from "@components/Footer/Footer";
 
 function OurShop() {
   const { container, functionBox, shop, back } = styles;
@@ -37,6 +38,7 @@ function OurShop() {
         <div>
           <Filter/>
           <ListProducts/>
+          <MyFooter/>
         </div>
       </Mainlayout>
     </OurShopProvider>

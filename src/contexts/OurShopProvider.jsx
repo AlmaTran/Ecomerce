@@ -22,7 +22,34 @@ export const OurShopProvider = ({ children }) => {
   const [sortId, setSortId] = useState("0");
   const [showId, setShowId] = useState("8");
   const [isShowGrid, setIsShowGrid] = useState(true);
-  const [products,setProducts] = useState([])
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [isLoadMore, setIsLoadMore] = useState(false)
+
+  const handleLoadMore = () => {
+    const query = {
+      sortType: sortId,
+      page: 1,
+      limit: showId,
+    };
+
+    setIsLoadMore(true)
+    getProducts(query)
+      .then((res) => {
+        setProducts((prev) => {
+          return [...prev, ...res.contents];
+        });
+        setPage(+res.page);
+        setTotal(res.total);
+        setIsLoadMore(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoadMore(false);
+      });
+  };
 
   const values = {
     sortOptions,
@@ -31,24 +58,30 @@ export const OurShopProvider = ({ children }) => {
     setShowId,
     setIsShowGrid,
     products,
-    isShowGrid
+    isShowGrid,
+    isLoading,
+    handleLoadMore,
+    total, isLoadMore
   };
 
   useEffect(() => {
     const query = {
       sortType: sortId,
       page: 1,
-      limit: showId
-    }
-   getProducts(query)
+      limit: showId,
+    };
+    setIsLoading(true);
+    getProducts(query)
       .then((res) => {
-          setProducts(res.contents)
+        setProducts(res.contents);
+        setTotal(res.total);
+        setIsLoading(false);
       })
       .catch((err) => {
-        console.log(err)
-      })
-
-  },[sortId,showId])
+        console.log(err);
+        setIsLoading(false);
+      });
+  }, [sortId, showId]);
 
   return (
     <OurShopContext.Provider value={values}>{children}</OurShopContext.Provider>

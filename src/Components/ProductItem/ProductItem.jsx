@@ -5,8 +5,12 @@ import carticon from "@icons/svgs/carticon.svg";
 import truckicon from "@icons/svgs/truckicon.svg";
 import cls from "classnames";
 import Button from "@components/Button/Button";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { OurShopContext } from "@/contexts/OurShopProvider";
+import Cookies from "js-cookie";
+import { SideBarContext } from "@/contexts/SideBarProvider";
+import { ToastContext } from "@/contexts/ToastProvider";
+import { addProductToCart } from "@/apis/cartService";
 
 function ProductItem({
   src,
@@ -16,11 +20,14 @@ function ProductItem({
   details,
   isHomepage = true,
 }) {
-
-
-  const shopContext = useContext(OurShopContext);
-  const isShowGrid = shopContext?.isShowGrid ?? true;
-
+  // const shopContext = useContext(OurShopContext);
+  // const isShowGrid = shopContext?.isShowGrid ?? true;
+  const [sizeChoosel, setSizeChoosel] = useState("");
+  const ourShopStore = useContext(OurShopContext);
+  const [isShowGrid, setIsShowGrid] = useState(ourShopStore?.isShowGrid);
+  const userId = Cookies.get("userId");
+  const { setIsOpen, setType } = useContext(SideBarContext);
+  const { toast } = useContext(ToastContext);
 
   const {
     boxImg,
@@ -35,13 +42,64 @@ function ProductItem({
     boxBtn,
     content,
     containerItem,
-    leftBtn,largImg
+    leftBtn,
+    largImg,
+    isActiceSize,
+    btnClear,
   } = styles;
+
+  const handleChooselSize = (size) => {
+    setSizeChoosel(size);
+  };
+
+  const handleClearSize = () => {
+    setSizeChoosel("");
+  };
+  const handleAddToCart = () => {
+    console.log(userId);
+    if (!userId) {
+      setIsOpen(true);
+      setType("login");
+      toast.warning("Please login to add product to cart");
+
+      return;
+    }
+
+    if (!sizeChoosel) {
+      toast.warning("Please choose size!");
+      return;
+    }
+
+  
+
+    const data = {
+      userId,
+      productId: details._id,
+      quantity: 1,
+      size: sizeChoosel
+    }
+
+
+    addProductToCart(data)
+      .then((res) => {
+
+      })
+      .catch((res) => {
+        
+      })
+  };
+  useEffect(() => {
+    if (isHomepage) {
+      setIsShowGrid(true);
+    } else {
+      setIsShowGrid(ourShopStore?.isShowGrid);
+    }
+  }, [isHomepage, ourShopStore?.isShowGrid]);
 
   // console.log(isShowGrid);
   return (
-    <div className={ isShowGrid ? '' : containerItem}>
-      <div className={cls(boxImg, {[largImg]: !isHomepage})}>
+    <div className={isShowGrid ? "" : containerItem}>
+      <div className={cls(boxImg, { [largImg]: !isHomepage })}>
         <img src={src} />
         <img src={prevSrc} className={showImageWhenHover} />
 
@@ -61,48 +119,57 @@ function ProductItem({
         </div>
       </div>
 
-      <div className={ isShowGrid ? '' : content}>
-         {!isHomepage && (
-        <div className={boxSize}>
-          {details.size.map((item, index) => {
-            return (
-              <div className={size} key={index}>
-                {item.name}
-              </div>
-            );
-          })}
-        </div>
-      )}
+      <div className={isShowGrid ? "" : content}>
+        {!isHomepage && (
+          <div className={boxSize}>
+            {details.size.map((item, index) => {
+              return (
+                <div
+                  className={cls(size, {
+                    [isActiceSize]: sizeChoosel === item.name,
+                  })}
+                  key={index}
+                  onClick={() => handleChooselSize(item.name)}
+                >
+                  {item.name}
+                </div>
+              );
+            })}
+          </div>
+        )}
 
-      <div
-        className={cls(title, {
-          [textCenter]: !isHomepage,
-        })}
-      >
-        {name}
-      </div>
-      {!isHomepage && (
+        {sizeChoosel && (
+          <div className={btnClear} onClick={() => handleClearSize()}>
+            Clear
+          </div>
+        )}
+
         <div
-        style={{color: '#888'}}
-          className={textCenter}
+          className={cls(title, {
+            [textCenter]: !isHomepage,
+          })}
         >
-          Brand01
+          {name}
         </div>
-      )}
-      <div
-         style={{ color: isHomepage ? "#333" : "#888" }}
-        className={cls(price, {
-          [textCenter]: !isHomepage,
-        })}
-      >
-        {price}
-      </div>
+        {!isHomepage && (
+          <div style={{ color: "#888" }} className={textCenter}>
+            Brand01
+          </div>
+        )}
+        <div
+          style={{ color: isHomepage ? "#333" : "#888" }}
+          className={cls(price, {
+            [textCenter]: !isHomepage,
+          })}
+        >
+          {price}
+        </div>
 
-      {!isHomepage && (
-        <div className={cls(boxBtn, {[leftBtn]: !isShowGrid})}>
-          <Button content="ADD TO CART" />
-        </div>
-      )}
+        {!isHomepage && (
+          <div className={cls(boxBtn, { [leftBtn]: !isShowGrid })}>
+            <Button content="ADD TO CART" onClick={handleAddToCart} />
+          </div>
+        )}
       </div>
     </div>
   );
