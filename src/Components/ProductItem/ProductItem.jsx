@@ -26,7 +26,7 @@ function ProductItem({
   const ourShopStore = useContext(OurShopContext);
   const [isShowGrid, setIsShowGrid] = useState(ourShopStore?.isShowGrid);
   const userId = Cookies.get("userId");
-  const { setIsOpen, setType } = useContext(SideBarContext);
+  const { setIsOpen, setType , handleGetListProduct } = useContext(SideBarContext);
   const { toast } = useContext(ToastContext);
 
   const {
@@ -70,23 +70,23 @@ function ProductItem({
       return;
     }
 
-  
-
     const data = {
       userId,
       productId: details._id,
       quantity: 1,
-      size: sizeChoosel
-    }
-
+      size: sizeChoosel,
+    };
 
     addProductToCart(data)
       .then((res) => {
-
+        setIsOpen(true);
+        setType("cart");
+        toast.success("Add Product to cart successfully");
+        handleGetListProduct(userId, 'cart');
       })
       .catch((res) => {
-        
-      })
+        toast.error("Add Product to cart failed");
+      });
   };
   useEffect(() => {
     if (isHomepage) {

@@ -20,18 +20,19 @@ function MyHeader() {
     container,
     fixedHeader,
     topHeader,
+    boxCart,
+    quantity,
   } = styles;
 
   const { scrollPosition } = useCrollHandling();
   const [fixedPosition, setFixedPosition] = useState(false);
 
-  const { setIsOpen, setType } = useContext(SideBarContext);
+  const { setIsOpen, setType,listProductCart } = useContext(SideBarContext);
 
   const handleOpenSibar = (type) => {
     setIsOpen(true);
     setType(type);
   };
-
 
   useEffect(() => {
     // if (scrollPosition > 80) {
@@ -112,7 +113,7 @@ function MyHeader() {
                 fontSize: "22px",
               }}
               onClick={() => {
-                handleOpenSibar('compare');
+                handleOpenSibar("compare");
               }}
             />
             <CiHeart
@@ -123,14 +124,19 @@ function MyHeader() {
                 handleOpenSibar("wishlist");
               }}
             />
-            <PiShoppingCartLight
-              style={{
-                fontSize: "28px",
-              }}
-              onClick={() => {
-                handleOpenSibar("cart");
-              }}
-            />
+            <div className={boxCart}>
+              <PiShoppingCartLight
+                style={{
+                  fontSize: "26px",
+                  marginTop: "6x",
+                }}
+                onClick={() => {
+                  handleOpenSibar("cart");
+                }}
+              />
+
+              <div className={quantity}>{listProductCart.length}</div>
+            </div>
           </div>
         </div>
       </div>

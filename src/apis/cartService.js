@@ -1,9 +1,12 @@
 import axiosClient from "@/apis/axiosClient";
 
 const addProductToCart = async (data) => {
-
-    return await axiosClient.post('/cart', data)
+   return await axiosClient.post('/cart', data)
 
 }
 
-export {addProductToCart}
+const getCart = async (userId) => {
+    return await axiosClient.get(`/cart/${userId}`);
+}
+
+export {addProductToCart, getCart}
